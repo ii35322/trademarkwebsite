@@ -75,12 +75,12 @@ html
                                   li 
                                     a(href='http://tmsearch.tipo.gov.tw/TIPO_DR/servlet/InitLogoPictureWordDetail?sKeyNO=#{obj["申請案號"]}',target='_blank') #{obj["圖樣中文"]} (#{obj["中文名稱"]})
                       td  
-                        if  result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length == 0
-                              安全
-                        else if  result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length <= 70
-                           一般
+                        if  result.filter(function(x){return (parseInt(x["商品類別1"])==i+1)&&(x["圖樣中文"]==tradename)}).length > 0
+                               危險
+                        else if  result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length > 0 
+                                    一般
                         else 
-                           危險
+                           安全
             h5 以上報告為根據目前行業註冊情形為您分析，僅供參考，具體註冊事宜仍建議您諮詢專業商標顧問    
                       
     p(style='padding:20px;')
