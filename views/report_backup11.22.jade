@@ -1,0 +1,325 @@
+doctype html
+html
+  head
+    title Jumbotron Template for Bootstrap
+    // Bootstrap core CSS
+    link(href='/stylesheet/bootstrap.css', rel='stylesheet')
+    
+    link(href='/stylesheet/bootstrap-theme.min.css', rel='stylesheet')    
+    link(href='/stylesheet/mystyles.css', rel='stylesheet')
+    link(href='/stylesheet/font-awesome.min.css', rel='stylesheet')
+    link(href='/stylesheet/font-awesome.css', rel='stylesheet')
+   
+    
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
+     
+
+  body(data-spy='scroll', data-target='.scrollspy')
+    nav.navbar.navbar-inverse
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#') 商標通
+        #navbar.navbar-collapse.collapse
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='#') 免費商標顧問服務
+            
+          form.navbar-form.navbar-right
+            input.form-control(type='text', placeholder='請輸入要查詢的商標')
+            button#submit.btn.btn-danger(type='submit', value=' Submit') 報告生成
+    .container-fluid
+      .row
+        .col-sm-3.col-md-2.sidebar
+          ul.nav.nav-sidebar
+            li.active
+              a(href='#')
+                | 醫療相關
+                span.sr-only (current)
+            li
+              a(href='#') 運動品牌
+            li
+              a(href='#') 科技產業
+            li
+              a(href='#') 金融法務
+          ul.nav.nav-sidebar
+            li
+              a(href='') 旅遊
+            li
+              a(href='') 食品
+            li
+              a(href='') 服飾
+            li
+              a(href='') 家具
+            li
+              a(href='') 餐飲
+          ul.nav.nav-sidebar
+            li
+              a(href='') 房地產
+            li
+              a(href='') 電子電器
+            li
+              a(href='') 機械加工
+        .col-sm-9.col-md-10
+            h2 建議申請註冊之類別
+            h2 不建議申請註冊之類別
+            h2 其他近似查詢結果報告
+            .table-responsive.theDiv
+                table.table.table-striped
+                    tr
+                      td  
+                      th 分類
+                      th 評估結果
+                      th 近似商標
+                    tr
+                      th 第1類
+                      td 化學用品
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="001"}).length}
+                    tr
+                      th 第2類
+                      td 各類顏料
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="002"}).length}
+                    tr
+                      th 第3類
+                      td 化粧用品
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="003"}).length}
+                    tr
+                      th 第4類
+                      td 工業用油
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="004"}).length}
+                    tr
+                      th 第5類
+                      td 各類藥品
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="005"}).length}
+                    tr
+                      th 第6類
+                      td 金屬製品
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="006"}).length} 
+                    tr
+                      th 第7類
+                      td 機械
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="007"}).length}
+                    tr
+                      th 第8類
+                      td 各類刀具
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="008"}).length}
+                    tr
+                      th 第9類
+                      td 電腦儀器
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="009"}).length}
+                    tr
+                      th 第10類
+                      td 醫療設備
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="010"}).length}
+                    tr
+                      th 第11類
+                      td 家電衛浴
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="011"}).length}
+                    tr
+                      th 第12類
+                      td 交通工具
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="012"}).length}
+                    tr
+                      th 第13類
+                      td 煙火軍火
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="013"}).length}
+                    tr
+                      th 第14類
+                      td 珠寶鐘錶
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="014"}).length}
+                    tr
+                      th 第15類
+                      td 樂器
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="015"}).length}
+                    tr
+                      th 第16類
+                      td 紙類製品
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="016"}).length}
+                    tr
+                      th 第17類
+                      td 橡膠製品
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="017"}).length}
+                    tr
+                      th 第18類
+                      td 皮革製品
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="018"}).length}
+                    tr
+                      th 第19類
+                      td 非金屬製品
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="019"}).length}
+                    tr
+                      th 第20類
+                      td 家具
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="020"}).length}
+                    tr
+                      th 第21類
+                      td 廚具
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="021"}).length}
+                    tr
+                      th 第22類
+                      td 紡織品
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="022"}).length}
+                    tr
+                      th 第23類
+                      td 紗線
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="023"}).length}
+                    tr
+                      th 第24類
+                      td 各類布料
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="024"}).length}
+                    tr
+                      th 第25類
+                      td 服飾
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="025"}).length}
+                    tr
+                      th 第26類
+                      td 綁帶髮飾
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="026"}).length}
+                    tr
+                      th 第27類
+                      td 竹蓆踏墊
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="027"}).length}
+                    tr
+                      th 第28類
+                      td 玩具運動
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="028"}).length}
+                    tr
+                      th 第29類
+                      td 豆奶肉製品
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="029"}).length}
+                    tr
+                      th 第30類
+                      td 茶咖啡糖
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="030"}).length}
+                    tr
+                      th 第31類
+                      td 農業園藝
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="031"}).length}
+                    tr
+                      th 第32類
+                      td 飲料啤酒
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="032"}).length}
+                    tr
+                      th 第33類
+                      td 酒類
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="033"}).length}
+                    tr
+                      th 第34類
+                      td 菸品
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="034"}).length}
+                    tr
+                      th 第35類
+                      td 廣告公關
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="035"}).length}
+                    tr
+                      th 第36類
+                      td 銀行保險
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="036"}).length}
+                    tr
+                      th 第37類
+                      td 營建修繕
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="037"}).length}
+                    tr
+                      th 第38類
+                      td 電信通訊
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="038"}).length}
+                    tr
+                      th 第39類
+                      td 交通運輸
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="039"}).length}
+                    tr
+                      th 第40類
+                      td 材料處理
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="040"}).length}
+                    tr
+                      th 第41類
+                      td 教育娛樂
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="041"}).length}
+                    tr
+                      th 第42類
+                      td 設計檢驗
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="042"}).length}
+                    tr
+                      th 第43類
+                      td 餐飲住宿
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="043"}).length}
+                    tr
+                      th 第44類
+                      td 醫療服務
+                      td 安全
+                      td #{result.filter(function(x){return x["商品類別1"]=="044"}).length}
+                    tr
+                      th 第45類
+                      td 法律服務
+                      td 安全
+                      td  #{result.filter(function(x){return x["商品類別1"]=="045"}).length}
+    p(style='padding:20px;')
+    footer.row-footer
+      .container
+        .row
+          .col-xs-12.col-md-4
+          .col-xs-12.col-md-4
+          .col-xs-12.col-md-4
+            .nav.navbar-nav(style='padding: 40px 10px;')
+              a.btn.btn-social-icon.btn-google-plus(href='http://google.com/+')
+                i.fa.fa-google-plus
+              a.btn.btn-social-icon.btn-facebook(href='http://www.facebook.com/profile.php?id=')
+                i.fa.fa-facebook
+              a.btn.btn-social-icon.btn-linkedin(href='http://www.linkedin.com/in/')
+                i.fa.fa-linkedin
+              a.btn.btn-social-icon.btn-twitter(href='http://twitter.com/')
+                i.fa.fa-twitter
+              a.btn.btn-social-icon.btn-youtube(href='http://youtube.com/')
+                i.fa.fa-youtube
+              a.btn.btn-social-icon(href='mailto:')
+                i.fa.fa-envelope-o
+          .col-xs-12
+            p(style='padding:10px;')
+            p(align='center') © Copyright 2016 群智法律事務所

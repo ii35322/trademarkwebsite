@@ -93,7 +93,7 @@
 								<div class="column" style="padding:10px;">
 									<h2 style="font-weight:100">深圳：黃先生</h2>
 									<div style="width:150px;margin: 0 auto;">
-									<img class="ui small circular image" src="/images/wen.png">
+									<img class="ui small circular image" src="images/wen.png">
 									</div>
 									<div style="width:300px; margin: 0 auto;padding-top:10px;text-align:justice;">
 									商標通的服務真的很不錯。雖然我人在大陸，簡單的溝通後在一天之內就幫助我把所有商標申請的文件準備齊全了。我覺得這個服務很適合正在創業不想傷腦筋的朋友。
@@ -102,7 +102,7 @@
 								<div class="column" style="padding:10px;">
 									<h2 style="font-weight:100">台北：李先生</h2>
 									<div style="width:150px;margin: 0 auto;">
-									<img class="ui small circular image" src="/images/jason.png">
+									<img class="ui small circular image" src="images/jason.png">
 									</div>
 									<div style="width:300px; margin: 0 auto;padding-top:10px;text-align:justice;">
 									之前想品牌名稱的時候最困擾的就是擔心商標已經被註冊了。現在透過商標通的系統，只要幾秒鐘就能夠知道這個名稱能不能用了，太神奇了！
@@ -112,7 +112,7 @@
 									<h2 style="font-weight:100">台中：杜小姐</h2>
 									<div style="width:150px;margin: 0 auto;">
 
-									<img class="ui small circular image" src="/images/pt.png">
+									<img class="ui small circular image" src="images/pt.png">
 									</div>
 									<div style="width:300px; margin: 0 auto;padding-top:10px;text-align:justice;">
 									商標通的顧問服務態度非常好。一開始我對商標申請的流程不大理解，在張律師的協助下，我很快就完成了申請。整個過程中只要有問題他會馬上回答，如果之後有需要還會找他們。
@@ -185,6 +185,7 @@
 
 			</div>
 
+           
 			<div class="ui small modal">
 			  <i class="close icon"></i>
 			  <div class="header">
@@ -195,7 +196,10 @@
 			  		商標名稱(必填)：
 			  	</span>
 				  <div class="ui input">
-				    <input id="tm-input" type="text">
+				    <form action="http://localhost:3000/report" method="get">
+				    <input id="tm-input" type="text" name="tradename">
+				    <input type="submit" value="Submit">
+				    </form>
 				  </div>
 				</div>
 			  <div style="color:black;margin:20px;">
@@ -252,6 +256,7 @@
 			    <div class="ui red button">生成報告</div>
 			  </div>
 			</div>
+			
 	</body>
 	<script>
 		$('.ui.modal').modal();

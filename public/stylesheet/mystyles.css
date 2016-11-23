@@ -1,0 +1,13 @@
+.theDiv{
+  /*border:1px solid black;*/
+  width:1000px;
+  height:500px;
+
+  overflow:auto;
+;  /* 新增這行：當溢位時，自動顯示捲軸 */
+}
+.row-footer {
+  margin: 0px auto;
+  padding: 20px 0px;
+  background-color: #AfAfAf;
+}

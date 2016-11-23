@@ -1,0 +1,108 @@
+doctype html
+html
+  head
+    title Jumbotron Template for Bootstrap
+    // Bootstrap core CSS
+    link(href='/stylesheet/bootstrap.css', rel='stylesheet')
+    
+    link(href='/stylesheet/bootstrap-theme.min.css', rel='stylesheet')    
+    link(href='/stylesheet/mystyles.css', rel='stylesheet')
+    link(href='/stylesheet/font-awesome.min.css', rel='stylesheet')
+    link(href='/stylesheet/font-awesome.css', rel='stylesheet')
+   
+    
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js') 
+
+  body(data-spy='scroll', data-target='.scrollspy')
+    nav.navbar.navbar-inverse
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#') 商標通
+        #navbar.navbar-collapse.collapse
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='#') 免費商標顧問服務
+            
+          
+    .container-fluid
+      .row
+        .col-sm-3.col-md-2.sidebar
+          ul.nav.nav-sidebar
+            li
+              h5 行業類別
+            for topic in topiclist
+              li 
+                .btn-group-vertical
+                  a(href='http://localhost:3000/report?tradename=#{tradename}&category=#{topic}')
+                    button.btn.btn-primary(type='button') #{topic} 
+            li ________________________
+            li
+              input.form-control(type='text', placeholder='請輸入要查詢的商標')
+              button#submit.btn.btn-danger(type='submit', value=' Submit') 再次查詢
+            
+              
+                  
+           
+        .col-sm-9.col-md-10
+            h2 近似查詢結果報告
+            h5 您所查詢之商標名稱：「#{tradename}」在「#{category}」行業類別註冊之結果
+            .table-responsive.theDiv
+                table.table.table-striped
+                  tr
+                    td  
+                    th 分類
+                    th 近似商標
+                    th 評估結果
+                  for i in subset_map[category]
+                    tr
+                      td 第#{numbers[i-1]}類                        
+                      td=categorynames[i-1]
+                      td 
+                        a.collapsed(data-toggle='collapse', data-parent='#accordion', href='#panelbody#{i}')
+                          共#{result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length}筆
+                        .panel-collapse.collapse(id='panelbody#{i}')
+                          .panel-body
+                            ul 
+                              small
+                                for obj in result.filter(function(x){return parseInt(x["商品類別1"])==i+1})
+                                  li 
+                                    a(href='http://tmsearch.tipo.gov.tw/TIPO_DR/servlet/InitLogoPictureWordDetail?sKeyNO=#{obj["申請案號"]}',target='_blank') #{obj["圖樣中文"]} (#{obj["中文名稱"]})
+                      td  
+                        if  result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length == 0
+                              安全
+                        else if  result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length <= 70
+                           一般
+                        else 
+                           危險
+            h5 以上報告為根據目前行業註冊情形為您分析，僅供參考，具體註冊事宜仍建議您諮詢專業商標顧問    
+                      
+    p(style='padding:20px;')
+    footer.row-footer
+      .container
+        .row
+          .col-xs-12.col-md-4
+          .col-xs-12.col-md-4
+          .col-xs-12.col-md-4
+            .nav.navbar-nav(style='padding: 40px 10px;')
+              a.btn.btn-social-icon.btn-google-plus(href='http://google.com/+')
+                i.fa.fa-google-plus
+              a.btn.btn-social-icon.btn-facebook(href='http://www.facebook.com/profile.php?id=')
+                i.fa.fa-facebook
+              a.btn.btn-social-icon.btn-linkedin(href='http://www.linkedin.com/in/')
+                i.fa.fa-linkedin
+              a.btn.btn-social-icon.btn-twitter(href='http://twitter.com/')
+                i.fa.fa-twitter
+              a.btn.btn-social-icon.btn-youtube(href='http://youtube.com/')
+                i.fa.fa-youtube
+              a.btn.btn-social-icon(href='mailto:')
+                i.fa.fa-envelope-o
+          .col-xs-12
+            p(style='padding:10px;')
+            p(align='center') © Copyright 2016 群智法律事務所
