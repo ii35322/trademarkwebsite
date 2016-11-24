@@ -15,7 +15,6 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname+'/public')));
 
 
-
 MongoClient.connect('mongodb://128.83.144.143:27017/IPO_DB1', function(err, db) {
   if (err) {
     throw err;
@@ -23,10 +22,6 @@ MongoClient.connect('mongodb://128.83.144.143:27017/IPO_DB1', function(err, db) 
   db_global=db;
 });
 
-
-//app.get('/',function(req,res){
-//	res.render('index');
-//});
 
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
@@ -38,9 +33,9 @@ var categorynames=["化學用品","各類顏料","化粧用品","工業用油","
                    "玩具運動","豆奶肉製品","茶咖啡糖","農業園藝","飲料啤酒","酒類","菸品","廣告公關","銀行保險","營建修繕","電信通訊","交通運輸","材料處理",
                    "教育娛樂","設計檢驗","餐飲住宿","醫療服務","法律服務"];
 var numbers=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45];
-var topiclist=["營建工程","批發零售","運輸倉儲","住宿餐飲","影音通訊","金融法務","房地產業","科技電子","娛樂體育","醫療保健","服飾家具","機械加工"]
+var topiclist=["所有類別", "營建工程","批發零售","運輸倉儲","住宿餐飲","影音通訊","金融法務","房地產業","科技電子","娛樂體育","醫療保健","服飾家具","機械加工"]
 var subset_map= {
-           "所有":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],
+           "所有類別":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],
            "營建工程":[1,6,7,11,12,19,21,22,37],
            "批發零售":[3,5,6,16,21,22,25,26,27,28,29,30,31,32,33,34],
            "運輸倉儲":[9,12,39],
@@ -54,51 +49,89 @@ var subset_map= {
            "服飾家具":[3,11,14,20,21,22,23,24,25,26,27],
            "機械加工":[1,2,4,6,7,8,9,11,12,13,17,18,21,40]
         }
-var range=[];
-app.get('/report*',function(req,res){
-	var tradename=req.query.tradename;
-	var category=req.query.category;
-	if (category==null){
-		category="所有";
-	}
-	//var query={'圖樣中文':tradename};
-	//var query={'圖樣中文':new RegExp("/.*"+tradename+".*/")};
-	var query={'圖樣中文': {$regex: ".*"+tradename+"."}};
 
-	db_global.collection('trademarks').find(query).toArray(function(err, result) {
-    if (err) {
-      throw err;
-    }
+CACHE_SIZE_LIMIT = 1000;
+result_cache = {};
+
+function maintain_cache_size(new_trade_name, new_result){
+	if( result_cache > CACHE_SIZE_LIMIT ){
+		result_cache = {trade_name:new_result};
+	}
+}
+
+app.get('/report*',function(req,res){
+  
+  var trade_name = req.query.trade_name;
+  var category = req.query.category || "所有類別";
+  
+  if( trade_name in result_cache ){  //look up trade_name in cache
     
+    //render page
     res.render('report',{
-    	'result':result,
-        'tradename':tradename,
-        'topiclist':topiclist,
+      'result':result_cache[trade_name],
+      'trade_name':trade_name,
+      "category":category,
+      
+      'topiclist':topiclist,
+      "categorynames":categorynames,
+      "numbers":numbers,
+      "subset_map":subset_map
+    });
+    
+  }else{ //cache not hit
+
+    //var query={'圖樣中文':trade_name};
+    var query={'圖樣中文': {$regex: ".*"+trade_name+"."}};
+    db_global.collection('trademarks').find(query).toArray(function(err, result) {
+
+      if (err) {
+        throw err;
+      }
+      
+      //cache result
+      result_cache[trade_name] = result;
+      maintain_cache_size( trade_name, result );
+
+      //render page
+      res.render('report',{
+        'result':result,
+        'trade_name':trade_name,
         "category":category,
+        
+        'topiclist':topiclist,
         "categorynames":categorynames,
         "numbers":numbers,
-        "range":range,
         "subset_map":subset_map
+      });
     });
-  });
-	
-	
+  }
+});
 
-	
-	
-
+app.post('/visit',function(req,res){
+  
+  //get POST parameters
+  var trade_name = req.body['trade_name'];
+  var trade_type = req.body['trade_type'];
+  var mobile_contact = req.body['mobile_contact'];
+  var email_contact = req.body['email_contact'];
+  var line_contact = req.body['line_contact'];
+  
+  //store user info to collection 'visits'
+  console.log('trade_name='+trade_name);
+  console.log('mobile_contact='+mobile_contact);
+  
+  //redirect to the report page
+  res.redirect("/report?trade_name="+trade_name);
 });
 
 /*app.get('/report',function(req,res){
-	res.render('report');
+  res.render('report');
 });
 
 app.get('/report2',function(req,res){
-	res.render('report2');
+  res.render('report2');
 });*/
 
 
-
-
 app.listen(3000);
-console.log('Sever is running on port 3000...');
+console.log('Server is running on port 3000...');
