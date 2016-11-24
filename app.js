@@ -81,7 +81,8 @@ app.get('/report*',function(req,res){
   }else{ //cache not hit
 
     //var query={'圖樣中文':trade_name};
-    var query={'圖樣中文': {$regex: ".*"+trade_name+"."}};
+    var query={'圖樣中文': {$regex: ".*"+trade_name+"."+"|"+trade_name}};
+    
     db_global.collection('trademarks').find(query).toArray(function(err, result) {
 
       if (err) {
@@ -117,8 +118,15 @@ app.post('/visit',function(req,res){
   var line_contact = req.body['line_contact'];
   
   //store user info to collection 'visits'
-  console.log('trade_name='+trade_name);
-  console.log('mobile_contact='+mobile_contact);
+  console.log('visit: trade_name='+trade_name+', mobile_contact='+mobile_contact);
+  
+  db_global.collection('visits').insert({
+	"trade_name" : trade_name,
+	"trade_type" : trade_type,
+	"mobile_contact" : mobile_contact,
+	"email_contact" : email_contact,
+	"line_contact": line_contact
+  });
   
   //redirect to the report page
   res.redirect("/report?trade_name="+trade_name);
