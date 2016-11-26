@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname+'/public')));
 
 
-MongoClient.connect('mongodb://128.83.144.143:27017/IPO_DB1', function(err, db) {
+MongoClient.connect('mongodb://139.162.41.109:12345/IPO_DB1', function(err, db) {
   if (err) {
     throw err;
   }
