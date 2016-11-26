@@ -53,7 +53,11 @@ html
            
         .col-sm-9.col-md-10
             h2 近似查詢結果報告
-            h5 您所查詢之商標名稱：「#{trade_name}」在「#{category}」行業類別註冊之結果 (危險:有相同商標, 一般:有近似商標, 安全:無近似商標)
+            h5 您所查詢之商標名稱：「#{trade_name}」在「#{category}」行業類別註冊之結果 
+            font(color='red') 危險:有相同商標 &nbsp
+            font(color='blue') 一般:有近似商標 &nbsp
+            font(color='green') 安全:無近似商標 &nbsp
+
             .table-responsive.theDiv
                 table.table.table-striped
                   tr
