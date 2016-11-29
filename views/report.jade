@@ -71,7 +71,8 @@ html
                       td=categorynames[i-1]
                       td 
                         a.collapsed(data-toggle='collapse', data-parent='#accordion', href='#panelbody#{i}') 共#{result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length}筆 
-                          span.glyphicon.glyphicon-triangle-bottom(style='font-size:0.5em;')
+                          if result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length > 0
+                            span.glyphicon.glyphicon-triangle-bottom(style='font-size:0.5em;')
                         .panel-collapse.collapse(id='panelbody#{i}')
                           .panel-body
                             ul 
@@ -103,21 +104,16 @@ html
       .container
         .row
           .col-xs-12.col-md-4
+            p
+            p
+            p
+            p
+            br
+            br
+            br
           .col-xs-12.col-md-4
           .col-xs-12.col-md-4
-            .nav.navbar-nav(style='padding: 40px 10px;')
-              a.btn.btn-social-icon.btn-google-plus(href='http://google.com/+')
-                i.fa.fa-google-plus
-              a.btn.btn-social-icon.btn-facebook(href='https://www.facebook.com/?stype=lo&jlou=AfdTos9y80Bav0MyeKwjSqzfv_mZSfO0QrPdMfASV2H1CzUOx7OnwMlaFCoyfmH172NO1Klhpq-48aMF-dKa1uY0&smuh=46253&lh=Ac9TwGg-LevYKfez')
-                i.fa.fa-facebook
-              a.btn.btn-social-icon.btn-linkedin(href='http://www.linkedin.com/in/')
-                i.fa.fa-linkedin
-              a.btn.btn-social-icon.btn-twitter(href='http://twitter.com/')
-                i.fa.fa-twitter
-              a.btn.btn-social-icon.btn-youtube(href='http://youtube.com/')
-                i.fa.fa-youtube
-              a.btn.btn-social-icon(href='mailto:')
-                i.fa.fa-envelope-o
+            
           .col-xs-12
             p(style='padding:10px;')
             p(align='center') © Copyright 2016 群智法律事務所

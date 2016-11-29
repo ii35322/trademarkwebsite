@@ -64,6 +64,8 @@ app.get('/report*',function(req,res){
   var trade_name = req.query.trade_name;
   var category = req.query.category || "所有類別";
   
+  
+
   if( trade_name in result_cache ){  //look up trade_name in cache
     
     //render page

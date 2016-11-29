@@ -191,14 +191,23 @@
 			  <div class="header">
 			    請留下您的資料
 			  </div>
-			  <form action="http://139.162.41.109:3000/visit" method="POST" class="ui form">
+			  <form name="myForm" action="http://139.162.41.109:3000/visit" onsubmit="return validateForm()" method="POST" class="ui form">
 			  <div style="color:black;margin:20px;">
 			  	<span style="display:inline-block;width:150px;">
 			  		商標名稱(必填)：
 			  	</span>
 				  <div class="ui input">
 				    <input id="tm-input" type="text" name="trade_name">
-				  </div>
+                                      <script>
+                                        function validateForm() {
+                                          var x = document.forms["myForm"]["trade_name"].value;
+                                          if (x == "") {
+                                             alert("您尚未填寫商標名稱");
+                                             return false;
+                                          }
+                                        }
+                                      </script>
+                                    </div>
 				</div>
 			  <div style="color:black;margin:20px;">
 			  	<span style="display:inline-block;width:150px;">
@@ -214,6 +223,15 @@
 			  	</span>			  	
 				  <div class="ui input">
 				    <input id="cell-input" type="text" name="mobile_contact">
+                                       <script>
+                                        function validateForm() {
+                                          var y = document.forms["myForm"]["mobile_contact"].value;
+                                          if (y == "") {
+                                             alert("您尚未填寫手機號碼");
+                                             return false;
+                                          }
+                                        }
+                                      </script>
 				  </div>
 				</div>
 			  <div style="color:black;margin:20px;">
