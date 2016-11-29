@@ -7,10 +7,9 @@ html
     
     link(href='/stylesheet/bootstrap-theme.min.css', rel='stylesheet')    
     link(href='/stylesheet/mystyles.css', rel='stylesheet')
-    link(href='/stylesheet/font-awesome.min.css', rel='stylesheet')
     link(href='/stylesheet/font-awesome.css', rel='stylesheet')
-   
-    
+    link(href='/stylesheet/font-awesome.min.css', rel ='styleet')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js') 
@@ -28,25 +27,26 @@ html
         #navbar.navbar-collapse.collapse
           ul.nav.navbar-nav.navbar-right
             li
-              a(href='#') 免費商標顧問服務
-            
+                         
           
     .container-fluid
-      .row
-        .col-sm-3.col-md-2.sidebar
-          ul.nav.nav-sidebar
+      row
+        .col-sm-3.col-md-2
+          ul.nav.nav-pills.nav-stacked
             li
               h5 行業類別
             for topic in topiclist
-              li 
-                .btn-group-vertical
-                  a(href='/report?trade_name=#{trade_name}&category=#{topic}')
-                    button.btn.btn-primary(type='button') #{topic} 
+              if category==topic
+                li.active
+                  a(href='/report?trade_name=#{trade_name}&category=#{topic}') #{topic}
+              else 
+                li
+                  a(href='/report?trade_name=#{trade_name}&category=#{topic}') #{topic}
             li ________________________
             li
-               form(action='/report', method='get')
-                 input.form-control(type='text', placeholder='請輸入要查詢的商標', name='trade_name')
-                 button#submit.btn.btn-danger(type='submit', value=' Submit') 再次查詢
+                 form(action='/report', method='get')
+                   input.form-control(type='text', placeholder='請輸入要查詢的商標', name='trade_name')
+                   button#submit.btn.btn-danger(type='submit', value=' Submit') 再次查詢
             
               
                   
@@ -66,7 +66,8 @@ html
                       td 第#{numbers[i-1]}類                        
                       td=categorynames[i-1]
                       td 
-                        a.collapsed(data-toggle='collapse', data-parent='#accordion', href='#panelbody#{i}') 共#{result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length}筆
+                        a.collapsed(data-toggle='collapse', data-parent='#accordion', href='#panelbody#{i}') 共#{result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length}筆 
+                          span.glyphicon.glyphicon-triangle-bottom(style='font-size:0.5em;')
                         .panel-collapse.collapse(id='panelbody#{i}')
                           .panel-body
                             ul 
@@ -103,7 +104,7 @@ html
             .nav.navbar-nav(style='padding: 40px 10px;')
               a.btn.btn-social-icon.btn-google-plus(href='http://google.com/+')
                 i.fa.fa-google-plus
-              a.btn.btn-social-icon.btn-facebook(href='http://www.facebook.com/profile.php?id=')
+              a.btn.btn-social-icon.btn-facebook(href='https://www.facebook.com/?stype=lo&jlou=AfdTos9y80Bav0MyeKwjSqzfv_mZSfO0QrPdMfASV2H1CzUOx7OnwMlaFCoyfmH172NO1Klhpq-48aMF-dKa1uY0&smuh=46253&lh=Ac9TwGg-LevYKfez')
                 i.fa.fa-facebook
               a.btn.btn-social-icon.btn-linkedin(href='http://www.linkedin.com/in/')
                 i.fa.fa-linkedin
