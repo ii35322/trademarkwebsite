@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname+'/public')));
 
 
-MongoClient.connect('mongodb://139.162.41.109:12345/IPO_DB1', function(err, db) {
+MongoClient.connect('mongodb://localhost:12345/IPO_DB1', function(err, db) {
   if (err) {
     throw err;
   }
@@ -130,6 +130,17 @@ app.post('/visit',function(req,res){
   
   //redirect to the report page
   res.redirect("/report?trade_name="+trade_name);
+});
+
+app.get('/visit_report',function(req,res){
+    
+  db_global.collection('visits').find({}).toArray(function(err, result) {
+
+      if (err) {
+        throw err;
+      }
+      res.render('visit_report',{'visits':result});
+  });
 });
 
 /*app.get('/report',function(req,res){
