@@ -70,14 +70,14 @@ html
                       td 第#{numbers[i-1]}類                        
                       td=categorynames[i-1]
                       td 
-                        a.collapsed(data-toggle='collapse', data-parent='#accordion', href='#panelbody#{i}') 共#{result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length}筆 
-                          if result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length > 0
+                        a.collapsed(data-toggle='collapse', data-parent='#accordion', href='#panelbody#{i}') 共#{result.filter(function(x){return parseInt(x["商品類別1"])==i}).length}筆 
+                          if result.filter(function(x){return parseInt(x["商品類別1"])==i}).length > 0
                             span.glyphicon.glyphicon-triangle-bottom(style='font-size:0.5em;')
                         .panel-collapse.collapse(id='panelbody#{i}')
                           .panel-body
                             ul 
                               small
-                                for obj in result.filter(function(x){return parseInt(x["商品類別1"])==i+1})
+                                for obj in result.filter(function(x){return parseInt(x["商品類別1"])==i})
                                   if obj["圖樣中文"]==trade_name
                                     li
                                         a(href='http://tmsearch.tipo.gov.tw/TIPO_DR/servlet/InitLogoPictureWordDetail?sKeyNO=#{obj["申請案號"]}',target='_blank')
@@ -87,10 +87,10 @@ html
                                       a(href='http://tmsearch.tipo.gov.tw/TIPO_DR/servlet/InitLogoPictureWordDetail?sKeyNO=#{obj["申請案號"]}',target='_blank') #{obj["圖樣中文"]} (#{obj["中文名稱"]})
 
 
-                        if result.filter(function(x){return (parseInt(x["商品類別1"])==i+1)&&(x["圖樣中文"]==trade_name)}).length > 0
+                        if result.filter(function(x){return (parseInt(x["商品類別1"])==i)&&(x["圖樣中文"]==trade_name)}).length > 0
                           td
                             font(color='red') 危險
-                        else if  result.filter(function(x){return parseInt(x["商品類別1"])==i+1}).length > 0 
+                        else if  result.filter(function(x){return parseInt(x["商品類別1"])==i}).length > 0 
                           td 
                             font(color='blue') 一般
                         else 
