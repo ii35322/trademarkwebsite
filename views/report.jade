@@ -78,7 +78,7 @@ html
                             ul 
                               small
                                 for obj in result.filter(function(x){return parseInt(x["商品類別1"])==i})
-                                  if obj["圖樣中文"]==trade_name || obj["圖樣英文"]==trade_name
+                                  if obj["圖樣中文"]==trade_name || obj["正規化圖樣英文"]==trade_name.toLowerCase()
                                     li
                                         a(href='http://tmsearch.tipo.gov.tw/TIPO_DR/servlet/InitLogoPictureWordDetail?sKeyNO=#{obj["申請案號"]}',target='_blank')
                                           font(color='red') #{obj["圖樣中文"]} #{obj["圖樣英文"]} (#{obj["中文名稱"]})
@@ -87,7 +87,7 @@ html
                                       a(href='http://tmsearch.tipo.gov.tw/TIPO_DR/servlet/InitLogoPictureWordDetail?sKeyNO=#{obj["申請案號"]}',target='_blank') #{obj["圖樣中文"]} #{obj["圖樣英文"]} (#{obj["中文名稱"]})
 
 
-                        if result.filter(function(x){return (parseInt(x["商品類別1"])==i) && ((x["圖樣英文"]==trade_name)||(x["圖樣中文"]==trade_name)) }).length > 0
+                        if result.filter(function(x){return (parseInt(x["商品類別1"])==i) && ((x["正規化圖樣英文"]==trade_name.toLowerCase())||(x["圖樣中文"]==trade_name)) }).length > 0
                           td
                             font(color='red') 危險
                         else if  result.filter(function(x){return parseInt(x["商品類別1"])==i}).length > 0 
