@@ -83,7 +83,12 @@ app.get('/report*',function(req,res){
   }else{ //cache not hit
 
     //var query={'圖樣中文':trade_name};
-    var query={'圖樣中文': {$regex: ".*"+trade_name+"."+"|"+trade_name}};
+    //var query={'圖樣中文': {$regex: ".*"+trade_name+"."+"|"+trade_name}};
+    var trade_lower = trade_name.toLowerCase();
+    var query={$or:[
+			{'圖樣中文': {$regex: ".*"+trade_name+"."+"|"+trade_name}},
+			{'正規化圖樣英文': {$regex: ".*"+trade_lower+"."+"|"+trade_lower}}
+		]};
     
     db_global.collection('trademarks').find(query).toArray(function(err, result) {
 
