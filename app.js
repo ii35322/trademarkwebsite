@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname+'/public')));
 
 
-MongoClient.connect('mongodb://localhost:12345/IPO_DB1', function(err, db) {
+MongoClient.connect('mongodb://139.162.41.109:12345/IPO_DB1', function(err, db) {
   if (err) {
     throw err;
   }
@@ -149,6 +149,8 @@ app.get('/visit_report',function(req,res){
       res.render('visit_report',{'visits':result});
   });
 });
+
+
 
 /*app.get('/report',function(req,res){
   res.render('report');

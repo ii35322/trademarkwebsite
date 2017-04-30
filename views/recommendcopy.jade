@@ -1,0 +1,193 @@
+doctype html
+//
+  Spectral by HTML5 UP
+  html5up.net | @ajlkn
+  Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+html
+  head
+    title 商標通 - 最便捷的商標註冊服務
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', type='text/css', href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js')
+    style.
+      .ex1{
+      }
+      .ex2{
+      }
+  body
+    div(style='margin:50px;')
+      .ui.ordered.steps
+        a.active.step
+          .content
+            .title 類別項目勾選
+            .description 勾選您要申請商標所涵蓋的類別項目
+        a.step
+          .content
+            .title 基本資料
+            .description 填寫您的基本資料
+        a.step
+          .content
+            .title 產生報告
+            .description 以此報告可直接向智財局申請註冊
+      p
+      //
+        <div class="ui big left lageled input search" style="width:70%;">
+        <input class="prompt" type="text" placeholder="請輸入產品或服務查詢相關類別" >
+        <div class="results"></div>
+        <button id="search-button" class="ui large teal button" style="margin-left:10px;">
+        搜尋
+        </button>
+        </div>
+        <p></p>
+      .ui.grid
+        .four.wide.column
+          h2.ui.header 要提交申請的項目
+          #criteria(style='width:85%;margin:20px;')
+            #largelable1.ui.hidden.blue.large.label
+              | 香水瓶 
+              i#deletelargelable1.close.icon
+            #largelable2.ui.hidden.blue.large.label
+              | 染劑 
+              i#deletelargelable2.close.icon
+            #largelable3.ui.hidden.blue.large.label
+              | 廣告顏料
+              i#deletelargelable3.close.icon
+        .six.wide.column
+          .ui.big.left.lageled.input.search.ex1(style='width:100%;')
+            input.prompt(type='text', placeholder='根據產品/服務篩選子類別')
+            .results
+            button#search-button.ui.large.teal.button(style='margin-left:10px;')
+              | 搜尋
+          // <h2 class="ui header" data-tooltip="有這些欄位中挑選您所要勾選的項目" >包含您搜尋關鍵字的子類別</h2>
+          p
+          //.ui.styled.accordion
+          //  .title
+          //    i.dropdown.icon
+          //      for i in 45
+          //        第#{numbers[i-1]}類
+          .ui.styled.accordion
+            .title
+              i.dropdown.icon
+              | 					    第 1 類：工業、科學、照相、農業、園藝、林業用化學品；未加工人造樹脂、未加工塑膠；肥料；滅火製劑；回火及焊接製劑；保存食品用化學物；鞣劑；工業用黏著劑。
+              .ui.red.basic.label
+                | 危險
+            .content
+              .accordion
+                .title
+                  | 010101  工業用化學品、科學用化學品
+                .content
+                  .ui.checkbox
+                    input#showlargelable1(type='checkbox', name='example')
+                    label 香水瓶
+                  .ui.checkbox
+                    input#showlargelable2(type='checkbox', name='example')
+                    label 染劑
+                  .ui.checkbox
+                    input#showlargelable3(type='checkbox', name='example')
+                    label 廣告顏料
+            .title
+              i.dropdown.icon
+              | 					    第 2 類：漆、清漆、亮光漆；防銹劑及木材防腐劑；著色劑；媒染劑；未加工天然樹脂；塗裝、裝潢、印刷與藝術用金屬箔及金屬粉。
+              .ui.blue.basic.label
+                | 安全
+            .content
+              .accordion
+                .title
+                  i.dropdown.icon
+                  | 							    0201  顏料、染料
+                .content
+                  | 廣告顏料、圖畫顏料、色粉、土黃色色料、黃丹、鉛丹、著色劑、顏料、美術用水彩顏料、美術用油畫顏料、炭黑顏料、胭脂紅、二氧化鈦顏料、銀色乳劑顏料、水彩定色劑、燈黑顏料、氧化鋅顏料、鉛橙、鉛白、鉛黃、番紅著色劑、繪畫用青銅粉、染料、媒染劑、鞋染料、皮革媒染劑、木材媒染劑、木材染料、染色劑、木材著色劑、茜草染料、苯胺染料、胭脂樹紅染料、染料木萃取液、染料木、復活節蛋著色用紙、皮革染色劑、薑黃著色劑、氧化鈷著色劑、黃香槐著色劑、靛藍著色劑、煙灰色著色劑、皮革油墨、塗裝用鋁粉、塗裝裝潢印刷及藝術用金屬粉、塗裝裝潢印刷及藝術用金屬箔、陶瓷用亮金、陶瓷用亮白金、皮膚彩繪油墨、繪畫用藤黃
+                .title
+                  i.dropdown.icon
+                  | 							    0202  食用色素
+                .content
+                  | 食用色素、紅花米、鹽基性介黃、飲料用色素、啤酒用色素、麥酒用色素、利口酒用色素、奶油用色素、焦糖色素、麥芽焦糖色素
+            .title
+              i.dropdown.icon
+              | 					   第 3 類：洗衣用漂白劑及其他洗衣用劑；清潔劑、擦亮劑、洗擦劑及研磨劑；不含藥肥皂；香料、香精油、不含藥化粧品、不含藥髮水；不含藥牙膏、牙粉。
+              .ui.green.basic.label
+                | 一般
+            .content
+              #showlargelable1.ui.hidden.blue.button
+                | 香水瓶
+              #showlargelable2.ui.hidden.blue.button
+                | 染劑
+              #showlargelable3.ui.hidden.blue.button
+                | 廣告顏料
+        .six.wide.column
+          .ui.big.left.lageled.input.search(style='width:100%;')
+            input.prompt(type='text', placeholder='以廠商名稱查詢註冊項目')
+            .results
+            button#search-button.ui.large.teal.button(style='margin-left:10px;')
+              | 搜尋
+          // <h2 class="ui header" data-inverted="" data-tooltip="參考看看其他一樣有勾選您所搜尋項目的廠商還選了那些項目！！！" >包含您搜尋關鍵字的廠商</h2>
+          p
+          .ui.styled.accordion
+            .active.title
+              i.dropdown.icon
+              | 					    可口可樂
+            .active.content
+              .ui.checkbox
+                input(type='checkbox', name='example')
+                label
+                  | 飲料，意即飲用水、調味水、礦泉水及碳酸水
+                  .ui.red.basic.label
+                    | 危險
+              .ui.checkbox
+                input(type='checkbox', name='example')
+                label
+                  | 及其他不含酒精之飲料，意即汽水、清涼飲料及運動飲料
+                  .ui.green.basic.label
+                    | 一般
+              .ui.checkbox
+                input(type='checkbox', name='example')
+                label
+                  | 水果飲料及果汁
+                  .ui.blue.basic.label
+                    | 安全
+              .ui.checkbox
+                input(type='checkbox', name='example')
+                label 製前述飲料用之糖漿，濃縮液及粉。
+      .ui.right.floated.big.red.button 下一步
+    script.
+      $('.ui.accordion').accordion();
+      $('.activating.element').popup();
+      $('#showlargelable1').click(function(){ $('#largelable1').transition('fade') });
+      $('#deletelargelable1').click(function(){ $('#largelable1').transition('fade') });
+      $('#showlargelable2').click(function(){ $('#largelable2').transition('fade') });
+      $('#deletelargelable2').click(function(){ $('#largelable2').transition('fade') });
+      $('#showlargelable3').click(function(){ $('#largelable3').transition('fade') });
+      $('#deletelargelable3').click(function(){ $('#largelable3').transition('fade') });
+      /*var content=[{
+      title:"Semantic UI",
+      description:"Best UI Framework out there."
+      }
+      ];*/
+      $('.ui.search.ex1').search({
+      /*source: contex1'ent,
+      fullTextSetting: false*/
+      apiSettings: {
+      url: "http://localhost:3000/search/?search_query={query}"
+      //url: "https://api.github.com/search/repositories?q={query}"
+      },
+      fields: {
+      results: 'items',
+      title: 'name'
+      //url: 'html_url'
+      },
+      //localSearch:false,
+      /*maxResults: 50,
+      onSearchQuery: function(q) {
+      console.log("search:", q)
+      },
+      onResultsAdd: function(html) {
+      $(".ui.modal .content .container").html(html)
+      $(".ui.modal").modal("refresh")
+      return false
+      },*/
+      onResults: function(res) {
+      console.log("res:", res)
+      }
+      });
