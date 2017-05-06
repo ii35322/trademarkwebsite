@@ -32,41 +32,22 @@ html
             .title 產生報告
             .description 以此報告可直接向智財局申請註冊
       p
-      //
-        <div class="ui big left lageled input search" style="width:70%;">
-        <input class="prompt" type="text" placeholder="請輸入產品或服務查詢相關類別" >
-        <div class="results"></div>
-        <button id="search-button" class="ui large teal button" style="margin-left:10px;">
-        搜尋
-        </button>
-        </div>
-        <p></p>
       .ui.grid
         .four.wide.column
           h2.ui.header 要提交申請的項目
           #criteria(style='width:85%;margin:20px;')
-            #largelable1.ui.hidden.blue.large.label
-              | 香水瓶 
-              i#deletelargelable1.close.icon
-            #largelable2.ui.hidden.blue.large.label
-              | 染劑 
-              i#deletelargelable2.close.icon
-            #largelable3.ui.hidden.blue.large.label
-              | 廣告顏料
-              i#deletelargelable3.close.icon
+            for i in [1,2,3]
+              div(id="largelabel"+i).ui.hidden.blue.large.label
+                | 香水瓶 #{i}
+                i(id="deletelargelabel"+i).close.icon
+
         .six.wide.column
           .ui.big.left.lageled.input.search.ex1(style='width:100%;')
-            input.prompt(type='text', placeholder='根據產品/服務篩選子類別')
+            input.prompt(type='text', placeholder='根據產品/服務篩選子類別',id='class-search-input')
             .results
-            button#search-button.ui.large.teal.button(style='margin-left:10px;')
+            button#class-search-button.ui.large.teal.button(style='margin-left:10px;')
               | 搜尋
-          // <h2 class="ui header" data-tooltip="有這些欄位中挑選您所要勾選的項目" >包含您搜尋關鍵字的子類別</h2>
           p
-          //.ui.styled.accordion
-          //  .title
-          //    i.dropdown.icon
-          //      for i in 45
-          //        第#{numbers[i-1]}類
           .ui.styled.accordion
             .title
               i.dropdown.icon
@@ -79,13 +60,13 @@ html
                   | 010101  工業用化學品、科學用化學品
                 .content
                   .ui.checkbox
-                    input#showlargelable1(type='checkbox', name='example')
+                    input#showlargelabel1(type='checkbox', name='example')
                     label 香水瓶
                   .ui.checkbox
-                    input#showlargelable2(type='checkbox', name='example')
+                    input#showlargelabel2(type='checkbox', name='example')
                     label 染劑
                   .ui.checkbox
-                    input#showlargelable3(type='checkbox', name='example')
+                    input#showlargelabel3(type='checkbox', name='example')
                     label 廣告顏料
             .title
               i.dropdown.icon
@@ -110,84 +91,115 @@ html
               .ui.green.basic.label
                 | 一般
             .content
-              #showlargelable1.ui.hidden.blue.button
-                | 香水瓶
-              #showlargelable2.ui.hidden.blue.button
-                | 染劑
-              #showlargelable3.ui.hidden.blue.button
-                | 廣告顏料
+              AAA
         .six.wide.column
           .ui.big.left.lageled.input.search(style='width:100%;')
-            input.prompt(type='text', placeholder='以廠商名稱查詢註冊項目')
+            input.prompt(type='text', placeholder='以廠商名稱查詢註冊項目',id='profile-search-input')
             .results
-            button#search-button.ui.large.teal.button(style='margin-left:10px;')
+            button#profile-search-button.ui.large.teal.button(style='margin-left:10px;')
               | 搜尋
-          // <h2 class="ui header" data-inverted="" data-tooltip="參考看看其他一樣有勾選您所搜尋項目的廠商還選了那些項目！！！" >包含您搜尋關鍵字的廠商</h2>
           p
-          .ui.styled.accordion
-            .active.title
-              i.dropdown.icon
-              | 					    可口可樂
-            .active.content
-              .ui.checkbox
-                input(type='checkbox', name='example')
-                label
-                  | 飲料，意即飲用水、調味水、礦泉水及碳酸水
-                  .ui.red.basic.label
-                    | 危險
-              .ui.checkbox
-                input(type='checkbox', name='example')
-                label
-                  | 及其他不含酒精之飲料，意即汽水、清涼飲料及運動飲料
-                  .ui.green.basic.label
-                    | 一般
-              .ui.checkbox
-                input(type='checkbox', name='example')
-                label
-                  | 水果飲料及果汁
-                  .ui.blue.basic.label
-                    | 安全
-              .ui.checkbox
-                input(type='checkbox', name='example')
-                label 製前述飲料用之糖漿，濃縮液及粉。
+            for profile in profile_list
+              .ui.styled.accordion
+                .title
+                  i.dropdown.icon
+                  |  #{ (profile.en_name && profile.ch_name)? profile.ch_name+" ("+profile.en_name+")": ((profile.ch_name)?profile.ch_name:profile.en_name) }
+                .content
+                   for item in profile.items
+                     .ui.checkbox
+                        input(type='checkbox', name='example')
+                        label #{item}
       .ui.right.floated.big.red.button 下一步
+    
     script.
+      
+      profile_search_input="";
+      class_search_input="";
+      num_items = 3;
+
+      //General Redirect
+      function redirect(){
+          
+          var href = window.location.href;
+          
+          //parse href to url_suffix_map
+          var href_arr = href.split("?");
+          var domain_name = href_arr[0];
+          
+          var url_suffix = "";
+          var url_suffix_map = {};
+          
+          if( href_arr.length > 1 ){
+            url_suffix =  href_arr[1];
+            if( url_suffix != "" ){
+              url_suffix_arr = url_suffix.split("&");
+              for(var i=0;i<url_suffix_arr.length;i++){
+                 var token = url_suffix_arr[i];
+                 kv_pair = token.split("=");
+                 url_suffix_map[ kv_pair[0] ] = kv_pair[1];
+              }
+            }
+          }
+          
+          //modify url_suffix_map
+          if( class_search_input != "" )
+            url_suffix_map['class_query'] = class_search_input;
+          
+          if( profile_search_input != "" )
+            url_suffix_map['profile_query'] = profile_search_input;
+          
+
+          //reconstruct url_suffix from map
+          var url_suffix_arr = [];
+          for(key in url_suffix_map){
+             var val = url_suffix_map[key];
+             url_suffix_arr.push( key+"="+val );
+          }
+          url_suffix = url_suffix_arr.join("&");
+
+          //redirect
+          window.location.assign(domain_name+"?"+url_suffix);
+      };
+      
+      //Class-based Search
+      $('#class-search-button').click(function(){
+      
+          class_search_input = $('#class-search-input').val();
+          redirect();
+      });
+
+      //Profile-based Search
+      $('#profile-search-button').click(function(){
+
+          profile_search_input = $('#profile-search-input').val();
+          redirect();
+      });
+
+      //Product Select (Dis-selected)
+
       $('.ui.accordion').accordion();
       $('.activating.element').popup();
-      $('#showlargelable1').click(function(){ $('#largelable1').transition('fade') });
-      $('#deletelargelable1').click(function(){ $('#largelable1').transition('fade') });
-      $('#showlargelable2').click(function(){ $('#largelable2').transition('fade') });
-      $('#deletelargelable2').click(function(){ $('#largelable2').transition('fade') });
-      $('#showlargelable3').click(function(){ $('#largelable3').transition('fade') });
-      $('#deletelargelable3').click(function(){ $('#largelable3').transition('fade') });
-      /*var content=[{
-      title:"Semantic UI",
-      description:"Best UI Framework out there."
+
+      for(var i=1;i<=num_items;i++){
+      	(function(j){
+      		$('#showlargelabel'+j).click( function(){ $('#largelabel'+j).transition('fade');  } );
+      		$('#deletelargelabel'+j).click( function(){ $('#largelabel'+j).transition('fade'); } );
+      	})(i);
       }
-      ];*/
+
+      //Class-based Autocomplete
       $('.ui.search.ex1').search({
       /*source: contex1'ent,
       fullTextSetting: false*/
-      apiSettings: {
-      url: "http://localhost:3000/search/?search_query={query}"
-      //url: "https://api.github.com/search/repositories?q={query}"
+        apiSettings: {
+        url: "http://localhost:3000/search/?search_query={query}"
+        //url: "https://api.github.com/search/repositories?q={query}"
       },
       fields: {
-      results: 'items',
-      title: 'name'
-      //url: 'html_url'
+        results: 'items',
+        title: 'name'
       },
-      //localSearch:false,
-      /*maxResults: 50,
-      onSearchQuery: function(q) {
-      console.log("search:", q)
-      },
-      onResultsAdd: function(html) {
-      $(".ui.modal .content .container").html(html)
-      $(".ui.modal").modal("refresh")
-      return false
-      },*/
-      onResults: function(res) {
-      console.log("res:", res)
-      }
+        onResults: function(res) {
+          console.log("res:", res)
+        }
       });

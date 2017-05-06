@@ -14,15 +14,14 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(express.static(path.join(__dirname+'/public')));
 
-var obj = [];
+var class_list = [];
 for (i = 1; i < 10; i++) {
-   obj.push(require("./item_class_v2/class0"+i+".v2.json"))
+   class_list.push(require("./item_class_v2/class0"+i+".v2.json"))
+}
+for (i = 10; i <= 45; i++) {
+   class_list.push(require("./item_class_v2/class"+i+".v2.json"))
 }
 
-for (i = 10; i <= 45; i++) {
-   obj.push(require("./item_class_v2/class"+i+".v2.json"))
-}
-console.log(obj);
 /*var obj =[];
 for (i=1;i<10;i++){
 	 obj[i]=require("./item_class_v2/class0"+i+".v2.json");
@@ -34,9 +33,57 @@ console.log(obj);*/
 //});
 var numbers=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45];
 
+attr_list = require("./list_attr.json");
+EN_NAME_KEY = attr_list['en_name'];
+EN_OWN_NAME_KEY = attr_list['en_own_name'];
+CH_NAME_KEY = attr_list['ch_name'];
+CH_OWN_NAME_KEY = attr_list['ch_own_name'];
+ITEMS1_KEY = attr_list['items1'];
+var client = require('./connection.js');
 
-app.get('/recommendcopy',function(req,res){
-	res.render('recommendcopy');
+app.get('/recommendcopy*',function(req,res){
+	
+	profile_list = [];
+	/*			[
+					{en_name:"NIKE", ch_name:"CH1", items:["1","2","3"]},
+					{en_name:"NIKE2", ch_name:"CH2", items:["1","2","3"]}
+					];*/
+	
+	//Construct Profile List From Query 
+	profile_query = req.query.profile_query;
+	if( !profile_query )
+			res.render('recommendcopy', {'profile_list':profile_list} );
+  
+	client.search({
+					index: 'trademark',
+					type: 'profile',
+					body: {
+									'query': {
+													'match': {
+																	searchField : profile_query
+													}
+									}
+					}
+	}).then(function (resp) {
+					var hits = resp.hits.hits;
+					console.log('#hits = '+hits.length);
+					for(var i=0;i<hits.length;i++){
+									hit = hits[i];
+									//console.log('score='+hit._score+', id='+hit._id+', NAME='+hit._source.searchField);
+									src = hit._source;
+									if( src[CH_NAME_KEY]!="" || src[EN_NAME_KEY]!="" ){
+											profile_list.push({ch_name: src[CH_NAME_KEY],
+																		en_name: src[EN_NAME_KEY],
+																		items: src[ITEMS1_KEY]})
+									}
+					}
+					console.log(profile_list);
+					res.render('recommendcopy', {'profile_list':profile_list, 'class_list':class_list} );
+
+	}, function (err) {
+					console.trace('Error');
+	});
+	
 });
 
 

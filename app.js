@@ -105,7 +105,6 @@ app.get('/report*',function(req,res){
         'result':result,
         'trade_name':trade_name,
         "category":category,
-        
         'topiclist':topiclist,
         "categorynames":categorynames,
         "numbers":numbers,
