@@ -41,57 +41,54 @@ html
                 | 香水瓶 #{i}
                 i(id="deletelargelabel"+i).close.icon
 
+
         .six.wide.column
           .ui.big.left.lageled.input.search.ex1(style='width:100%;')
             input.prompt(type='text', placeholder='根據產品/服務篩選子類別',id='class-search-input')
             .results
             button#class-search-button.ui.large.teal.button(style='margin-left:10px;')
               | 搜尋
+          
           p
+          
           .ui.styled.accordion
-            .title
-              i.dropdown.icon
-              | 					    第 1 類：工業、科學、照相、農業、園藝、林業用化學品；未加工人造樹脂、未加工塑膠；肥料；滅火製劑；回火及焊接製劑；保存食品用化學物；鞣劑；工業用黏著劑。
-              .ui.red.basic.label
-                | 危險
-            .content
-              .accordion
-                .title
-                  | 010101  工業用化學品、科學用化學品
-                .content
-                  .ui.checkbox
-                    input#showlargelabel1(type='checkbox', name='example')
-                    label 香水瓶
-                  .ui.checkbox
-                    input#showlargelabel2(type='checkbox', name='example')
-                    label 染劑
-                  .ui.checkbox
-                    input#showlargelabel3(type='checkbox', name='example')
-                    label 廣告顏料
-            .title
-              i.dropdown.icon
-              | 					    第 2 類：漆、清漆、亮光漆；防銹劑及木材防腐劑；著色劑；媒染劑；未加工天然樹脂；塗裝、裝潢、印刷與藝術用金屬箔及金屬粉。
-              .ui.blue.basic.label
-                | 安全
-            .content
-              .accordion
-                .title
-                  i.dropdown.icon
-                  | 							    0201  顏料、染料
-                .content
-                  | 廣告顏料、圖畫顏料、色粉、土黃色色料、黃丹、鉛丹、著色劑、顏料、美術用水彩顏料、美術用油畫顏料、炭黑顏料、胭脂紅、二氧化鈦顏料、銀色乳劑顏料、水彩定色劑、燈黑顏料、氧化鋅顏料、鉛橙、鉛白、鉛黃、番紅著色劑、繪畫用青銅粉、染料、媒染劑、鞋染料、皮革媒染劑、木材媒染劑、木材染料、染色劑、木材著色劑、茜草染料、苯胺染料、胭脂樹紅染料、染料木萃取液、染料木、復活節蛋著色用紙、皮革染色劑、薑黃著色劑、氧化鈷著色劑、黃香槐著色劑、靛藍著色劑、煙灰色著色劑、皮革油墨、塗裝用鋁粉、塗裝裝潢印刷及藝術用金屬粉、塗裝裝潢印刷及藝術用金屬箔、陶瓷用亮金、陶瓷用亮白金、皮膚彩繪油墨、繪畫用藤黃
-                .title
-                  i.dropdown.icon
-                  | 							    0202  食用色素
-                .content
-                  | 食用色素、紅花米、鹽基性介黃、飲料用色素、啤酒用色素、麥酒用色素、利口酒用色素、奶油用色素、焦糖色素、麥芽焦糖色素
-            .title
-              i.dropdown.icon
-              | 					   第 3 類：洗衣用漂白劑及其他洗衣用劑；清潔劑、擦亮劑、洗擦劑及研磨劑；不含藥肥皂；香料、香精油、不含藥化粧品、不含藥髮水；不含藥牙膏、牙粉。
-              .ui.green.basic.label
-                | 一般
-            .content
-              AAA
+            for c in class_list
+              .title
+                i.dropdown.icon
+                |  #{c.name}
+                //.ui.green.basic.label
+                //  |  一般
+              .content
+                .accordion
+                  for subclass in c.subclasses
+                    if subclass_is_active[subclass.name]
+                      .title.active
+                        | #{subclass.name}
+                    else
+                      .title
+                        | #{subclass.name}
+
+                    if subclass_is_active[subclass.name]
+                      .content.active
+                        for item in subclass.items
+                          
+                          .ui.checkbox
+                            input#showlargelabel(type='checkbox', name='example')
+                            if item_is_active[item]
+                              label(style='font-weight:bold;color:red')= item
+                            else
+                              label=item
+                    else
+                      .content
+                        for item in subclass.items
+                          
+                          .ui.checkbox
+                            input#showlargelabel(type='checkbox', name='example')
+                            if item_is_active[item]
+                              label(style='font-weight:bold;color:red')= item
+                            else
+                              label=item
+                              
         .six.wide.column
           .ui.big.left.lageled.input.search(style='width:100%;')
             input.prompt(type='text', placeholder='以廠商名稱查詢註冊項目',id='profile-search-input')

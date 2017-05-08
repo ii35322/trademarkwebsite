@@ -43,17 +43,50 @@ var client = require('./connection.js');
 
 app.get('/recommendcopy*',function(req,res){
 	
-	profile_list = [];
 	/*			[
 					{en_name:"NIKE", ch_name:"CH1", items:["1","2","3"]},
 					{en_name:"NIKE2", ch_name:"CH2", items:["1","2","3"]}
 					];*/
 	
-	//Construct Profile List From Query 
+	
+	//Construct selected_class
+	class_query = req.query.class_query;
+	subclass_is_active = {};
+	item_is_active = {};
+	selected_classes = [];
+	if( class_query ){
+			class_list.forEach(function(c){ 
+					var c_chosen = false;
+					c.subclasses.forEach(function(sc){
+								var sc_chosen = false;
+								sc.items.forEach(function(item){
+										if( item.indexOf(class_query) > -1 ){
+												item_is_active[item] = true;
+												sc_chosen = true;
+										}
+								});
+								if( sc_chosen ){
+										subclass_is_active[sc.name] = true;
+										c_chosen = true;
+								}
+					});
+					if( c_chosen ){
+							selected_classes.push(c);
+					}
+			});
+	}
+
+	//retrieve profile list
+	profile_list = [];
 	profile_query = req.query.profile_query;
-	if( !profile_query )
-			res.render('recommendcopy', {'profile_list':profile_list} );
-  
+	if( !profile_query ){
+			res.render('recommendcopy', {'profile_list':profile_list, 
+																		'class_list':selected_classes,
+																		'subclass_is_active':subclass_is_active,
+																		'item_is_active': item_is_active } );
+			return;
+	}
+	
 	client.search({
 					index: 'trademark',
 					type: 'profile',
@@ -78,12 +111,14 @@ app.get('/recommendcopy*',function(req,res){
 									}
 					}
 					console.log(profile_list);
-					res.render('recommendcopy', {'profile_list':profile_list, 'class_list':class_list} );
+					res.render('recommendcopy', {'profile_list':profile_list, 'class_list':selected_classes} );
 
 	}, function (err) {
 					console.trace('Error');
 	});
 	
+	
+
 });
 
 
