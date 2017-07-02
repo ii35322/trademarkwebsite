@@ -12,9 +12,13 @@ html
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js')
     style.
-      .ex1{
+      .ui.blue.large.label.largelabel{
+         margin-bottom:2px;
+         margin-top:1px
       }
-      .ex2{
+      .ui.checkbox{
+         margin-left:5px;
+         margin-right:5px
       }
   body
     div(style='margin:50px;')
@@ -36,10 +40,12 @@ html
         .four.wide.column
           h2.ui.header 要提交申請的項目
           #criteria(style='width:85%;margin:20px;')
-            for i in [1,2,3]
-              div(id="largelabel"+i).ui.hidden.blue.large.label
-                | 香水瓶 #{i}
-                i(id="deletelargelabel"+i).close.icon
+            
+
+
+            //.ui.blue.large.label.largelabel
+            //    | #{item}
+                //i(id="deletelargelabel"+i).close.icon
 
 
         .six.wide.column
@@ -50,17 +56,17 @@ html
               | 搜尋
           
           p
-          
+          p
           .ui.styled.accordion
             for c in class_list
               .title
                 i.dropdown.icon
                 |  #{c.name}
-                //.ui.green.basic.label
-                //  |  一般
+                
               .content
                 .accordion
                   for subclass in c.subclasses
+                    
                     if subclass_is_active[subclass.name]
                       .title.active
                         | #{subclass.name}
@@ -73,21 +79,21 @@ html
                         for item in subclass.items
                           
                           .ui.checkbox
-                            input#showlargelabel(type='checkbox', name='example')
+                            input(type='checkbox',class='checkbox'+item2ind[item])
                             if item_is_active[item]
-                              label(style='font-weight:bold;color:red')= item
+                              label(style='font-weight:bold;color:red', id='label'+item2ind[item])= item
                             else
-                              label=item
+                              label(id='label'+item2ind[item])= item
                     else
                       .content
                         for item in subclass.items
                           
                           .ui.checkbox
-                            input#showlargelabel(type='checkbox', name='example')
+                            input(type='checkbox',class='checkbox'+item2ind[item])
                             if item_is_active[item]
-                              label(style='font-weight:bold;color:red')= item
+                              label(style='font-weight:bold;color:red', id='label'+item2ind[item])= item
                             else
-                              label=item
+                              label(id='label'+item2ind[item])= item
                               
         .six.wide.column
           .ui.big.left.lageled.input.search(style='width:100%;')
@@ -101,18 +107,118 @@ html
                 .title
                   i.dropdown.icon
                   |  #{ (profile.en_name && profile.ch_name)? profile.ch_name+" ("+profile.en_name+")": ((profile.ch_name)?profile.ch_name:profile.en_name) }
-                .content
+                .content.active
                    for item in profile.items
                      .ui.checkbox
-                        input(type='checkbox', name='example')
-                        label #{item}
-      .ui.right.floated.big.red.button 下一步
+                        input(type='checkbox', class='checkbox'+item2ind[item])
+                        label(id='label'+item2ind[item]) #{item}
+
+      .ui.right.floated.big.red.button(id="nextpage_btn") 下一步
     
     script.
-      
+
       profile_search_input="";
       class_search_input="";
-      num_items = 3;
+      num_items = #{numItem};
+      selectItemList = urlToItemList(window.location.href);
+      
+      //parse item list from URL
+      function urlToItemList(url){
+          
+          var href = decodeURI(url);
+          //parse href to url_suffix_map
+          var href_arr = href.split("?");
+          
+          if( href_arr.length <= 1 ){
+          		return [];
+          }
+
+          url_suffix =  href_arr[1];
+          if( url_suffix == "" ){
+               return [];
+          }
+          
+          var url_suffix_map = {};
+          url_suffix_arr = url_suffix.split("&");
+          for(var i=0;i<url_suffix_arr.length;i++){
+              var token = url_suffix_arr[i];
+              kv_pair = token.split("=");
+              url_suffix_map[ kv_pair[0] ] = kv_pair[1];
+          }
+          
+          itemliststr = url_suffix_map['itemlist'];
+          
+          if( !itemliststr ){
+             return [];
+          }
+          
+          itemlist = [];
+          tokens = itemliststr.split(",");
+          
+          for(var i=0;i<tokens.length;i++){
+             pair = tokens[i].split(":");
+             itemlist.push( [ Number(pair[0]), pair[1] ] );
+          }
+
+          return itemlist;
+      }
+
+      //convert itemlist to a URL string
+      function itemlistToURL(itemlist){
+         
+         tokens = [];
+         for(var i=0;i<itemlist.length;i++){
+            pair = itemlist[i];
+            tokens.push( pair[0]+":"+pair[1] );
+         }
+
+         return tokens.join(",");
+      }
+
+      //Render Selected Items
+      function showSelectItems(){
+          
+          //add item tags to DOM
+      	  itemLabels = '';
+      	  for(var i=0;i<selectItemList.length;i++){
+            
+            id = selectItemList[i][0];
+      	    item = selectItemList[i][1];
+      	  	itemLabels += "<div class='ui blue large label largelabel'>"+item+ "<i class='close icon' id='delete"+i+"'>"+"</i>" +"</div>";
+
+      	  	//make checkbox of selected items checked
+      	  	$('.checkbox'+id).prop('checked',true);
+      	  }
+      	  $('#criteria').html(
+      	  	 itemLabels
+      	  );
+
+      	  //add event listener to item delete icon
+      	  for(var i=0;i<selectItemList.length;i++){
+
+      	    id = selectItemList[i][0];
+      	    item = selectItemList[i][1];
+      		
+      		(function(_i,_id){
+      		    
+      		    $('#delete'+_i).click(
+      		    	function(){
+      		    	    
+      		    		deleteItem(_i)
+      		    		showSelectItems();
+      		    	} 
+      		    );
+      		})(i,id);
+      	  }
+      }
+      
+      function deleteItem(i){
+         id = selectItemList[i][0];
+         selectItemList.splice(i,1);
+         $('.checkbox'+id).prop('checked',false);
+      }
+
+      showSelectItems();
 
       //General Redirect
       function redirect(){
@@ -145,7 +251,12 @@ html
           if( profile_search_input != "" )
             url_suffix_map['profile_query'] = profile_search_input;
           
-
+          console.log(selectItemList.length);
+          if( selectItemList.length != 0 ){
+            
+            url_suffix_map['itemlist'] = itemlistToURL(selectItemList);
+          }
+          
           //reconstruct url_suffix from map
           var url_suffix_arr = [];
           for(key in url_suffix_map){
@@ -153,7 +264,8 @@ html
              url_suffix_arr.push( key+"="+val );
           }
           url_suffix = url_suffix_arr.join("&");
-
+          
+          console.log(domain_name+"?"+url_suffix);
           //redirect
           window.location.assign(domain_name+"?"+url_suffix);
       };
@@ -172,22 +284,54 @@ html
           redirect();
       });
 
-      //Product Select (Dis-selected)
+      //Item Select (Dis-selected)
 
       $('.ui.accordion').accordion();
       $('.activating.element').popup();
 
-      for(var i=1;i<=num_items;i++){
+      for(var i=0;i<num_items;i++){
       	(function(j){
-      		$('#showlargelabel'+j).click( function(){ $('#largelabel'+j).transition('fade');  } );
-      		$('#deletelargelabel'+j).click( function(){ $('#largelabel'+j).transition('fade'); } );
+      		
+      		$('.checkbox'+j).click( 
+      		    function(){
+      		    	item = $('#label'+j).text();
+      		    	
+                    //delete if exist; add if not.
+                    var k;
+      		    	for(k=0;k<selectItemList.length;k++){
+                       if(selectItemList[k][1]==item){
+                          break;
+                       }
+      		    	}
+      		    	if( k<selectItemList.length ){//exist
+                       deleteItem(k);
+      		    	}else{                        //not exist
+      		    	   selectItemList.push([j,item]);
+      		    	}
+
+      		    	showSelectItems();
+      		    }
+      		);
       	})(i);
       }
 
+      //direct to next page
+      $('#nextpage_btn').click(function(){
+
+           var href = window.location.href;
+           domain = href.split("/")[0];
+           
+           itemNameList = [];
+           for(var i=0;i<selectItemList.length;i++){
+              itemNameList.push(selectItemList[i][1]);
+           }
+           
+           window.location.assign(domain+"/information?itemlist="+itemNameList.join(","));
+      });
+
       //Class-based Autocomplete
-      $('.ui.search.ex1').search({
-      /*source: contex1'ent,
-      fullTextSetting: false*/
+      /*$('.ui.search.ex1').search({
+      
         apiSettings: {
         url: "http://localhost:3000/search/?search_query={query}"
         //url: "https://api.github.com/search/repositories?q={query}"
@@ -199,4 +343,4 @@ html
         onResults: function(res) {
           console.log("res:", res)
         }
-      });
+      });*/

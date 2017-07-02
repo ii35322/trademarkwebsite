@@ -1,0 +1,143 @@
+doctype html
+//
+  Spectral by HTML5 UP
+  html5up.net | @ajlkn
+  Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+html
+  head
+    title 商標通 - 最便捷的商標註冊服務
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', type='text/css', href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js')
+  body
+    div(style='margin:50px;')
+      .ui.ordered.steps
+        a.step
+          .content
+            .title 類別項目勾選
+            .description 勾選您要申請商標所涵蓋的類別項目
+        a.active.step
+          .content
+            .title 基本資料
+            .description 填寫您的基本資料
+        a.step
+          .content
+            .title 產生報告
+            .description 以此報告可直接向智財局申請註冊
+      p
+      .ui.segment
+        .ui.container
+          form.ui.form(name='myForm', action='http://139.162.41.109:3000/visit', onsubmit='return validateForm()', method='POST')
+          br
+          form.ui.form
+            
+
+            h4.ui.dividing.header 申請人基本資料
+            br
+            .two.fields
+              .field
+                label 國籍
+                select.ui.fluid.dropdown
+                  option(value='') 本國人
+                  option(value='AK') 大陸地區
+              .field
+                label 身分種類
+                select.ui.fluid.dropdown
+                  option(value='') 自然人
+                  option(value='AL') 法人公司機關學校
+                  option(value='AK') 商號行號工廠
+            .field
+              .two.fields
+                .field
+                  label 姓名/公司名稱/商號名稱
+                  input(type='text', name='name', placeholder='')
+                .field
+                  label 身分證字號/統一編號
+                  input(type='text', name='name', placeholder='')
+            .field
+              label 代表人姓名(選擇法人公司機關學校/商號行號工廠需填寫)
+              input(type='text', name='name', placeholder='')
+            .two.fields
+              .twelve.wide.field
+                label 地址
+                input(type='text', name='address', placeholder='請輸入您的地址')
+              .four.wide.field
+                label 郵遞區號
+                input(type='text', name='postcode', placeholder='請輸入您的郵遞區號')
+            .field
+              .two.fields
+                .field
+                  label 電話
+                  input(type='text', name='name', placeholder='')
+                .field
+                  label 手機
+                  input(type='text', name='name', placeholder='')
+            br
+            h4.ui.dividing.header 商標(圖樣)說明
+            br
+            .field
+              .two.fields
+                .field
+                  label 商標名稱
+                  input(type='text', name='name', placeholder='')
+                  p
+                  label 商標圖樣顏色
+                  select.ui.fluid.dropdown
+                    option(value='') 墨色
+                    option(value='AL') 彩色
+                  p
+                  label 圖樣中文(無則免填)
+                  input(type='text', name='name', placeholder='')
+                  p
+                  label 圖樣外文(無則免填)
+                  .two.fields
+                    .field
+                      label 語文別
+                      input(type='text', name='name', placeholder='')
+                    .field
+                      label 內容
+                      input(type='text', name='name', placeholder='')
+                .field
+                  label 商標圖樣電子檔
+                  .ui.image-upload.segment
+                    form
+                      input.upl(type='file')
+                      div
+                        img.preview(style='max-width: 150px; max-height: 150px;')
+                        .size
+                      // <img style="margin-bottom: 10px" class="ui medium rounded image" src="https://lh5.googleusercontent.com/-Q8jolvY4uUw/AAAAAAAAAAI/AAAAAAAAOMg/8f2zxsVBjN8/s0-c-k-no-ns/photo.jpg">
+                      a.ui.mini.button 轉格式
+                      a.ui.mini.blue.button 上傳
+                .field
+                  label 申請項目
+                  p= itemlist.join(", ")
+
+            .field
+            .actions
+              button.ui.red.button(type='submit') 生成報告
+      script.
+
+        $('.ui.accordion').accordion();
+        $(function (){
+        function format_float(num, pos)
+        {
+        var size = Math.pow(10, pos);
+        return Math.round(num * size) / size;
+        }
+        function preview(input) {
+        if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+        $('.preview').attr('src', e.target.result);
+        var KB = format_float(e.total / 1024, 2);
+        $('.size').text("檔案大小：" + KB + " KB");
+        }
+        reader.readAsDataURL(input.files[0]);
+        }
+        }
+        $("body").on("change", ".upl", function (){
+        preview(this);
+        })
+        })

@@ -8,12 +8,12 @@ var app = express();
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','jade');
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(express.static(path.join(__dirname+'/public')));
 
+//Build item classes from files
 var class_list = [];
 for (i = 1; i < 10; i++) {
    class_list.push(require("./item_class_v2/class0"+i+".v2.json"))
@@ -22,16 +22,18 @@ for (i = 10; i <= 45; i++) {
    class_list.push(require("./item_class_v2/class"+i+".v2.json"))
 }
 
-/*var obj =[];
-for (i=1;i<10;i++){
-	 obj[i]=require("./item_class_v2/class0"+i+".v2.json");
-}
-console.log(obj);*/
+//construct item index map
+numItem = 0;
+item2ind = {};
+class_list.forEach(function(c){ 
+		c.subclasses.forEach(function(sc){
+				sc.items.forEach(function(item){
+						item2ind[item] = numItem;
+						numItem += 1;
+				});
+		});
+});
 
-//app.get('/', function(req, res) {
-//    res.sendFile(path.join(__dirname + '/recommendcopy.html'));
-//});
-var numbers=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45];
 
 attr_list = require("./list_attr.json");
 EN_NAME_KEY = attr_list['en_name'];
@@ -39,6 +41,8 @@ EN_OWN_NAME_KEY = attr_list['en_own_name'];
 CH_NAME_KEY = attr_list['ch_name'];
 CH_OWN_NAME_KEY = attr_list['ch_own_name'];
 ITEMS1_KEY = attr_list['items1'];
+
+
 var client = require('./connection.js');
 
 app.get('/recommendcopy*',function(req,res){
@@ -53,6 +57,7 @@ app.get('/recommendcopy*',function(req,res){
 	class_query = req.query.class_query;
 	subclass_is_active = {};
 	item_is_active = {};
+	
 	selected_classes = [];
 	if( class_query ){
 			class_list.forEach(function(c){ 
@@ -83,7 +88,9 @@ app.get('/recommendcopy*',function(req,res){
 			res.render('recommendcopy', {'profile_list':profile_list, 
 																		'class_list':selected_classes,
 																		'subclass_is_active':subclass_is_active,
-																		'item_is_active': item_is_active } );
+																		'item_is_active': item_is_active,
+																		'item2ind': item2ind,
+		 																'numItem': numItem 	} );
 			return;
 	}
 	
@@ -109,9 +116,22 @@ app.get('/recommendcopy*',function(req,res){
 																		en_name: src[EN_NAME_KEY],
 																		items: src[ITEMS1_KEY]})
 									}
+									itemlist = src[ITEMS1_KEY];
+									for(var j=0;j<itemlist.length;j++){
+											var item = itemlist[j];
+											if( !(item in item2ind) ){
+													item2ind[item] = numItem;
+													numItem += 1;
+											}
+									}
 					}
-					console.log(profile_list);
-					res.render('recommendcopy', {'profile_list':profile_list, 'class_list':selected_classes} );
+					
+					res.render('recommendcopy', {'profile_list':profile_list, 
+																				'class_list':selected_classes,
+																				'subclass_is_active':subclass_is_active,
+																				'item_is_active': item_is_active,
+																				'item2ind': item2ind,
+		 																		'numItem': numItem 	} );
 
 	}, function (err) {
 					console.trace('Error');
@@ -119,6 +139,12 @@ app.get('/recommendcopy*',function(req,res){
 	
 	
 
+});
+
+app.get('/information*',function(req,res){
+		  itemlist_str = req.query.itemlist;
+			itemlist = itemlist_str.split(',');
+			res.render('information',{"itemlist":itemlist});
 });
 
 
